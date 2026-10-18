@@ -330,7 +330,9 @@
     padding:9px 8px; border-bottom:1px solid var(--line);
   }
   .order-row .no{ color:var(--muted); font-size:12px; }
-  .order-row .sku{ font-family:'IBM Plex Mono',monospace; font-size:12px; word-break:break-all; }
+  .order-row .sku{ font-family:'IBM Plex Mono',monospace; font-size:12px; word-break:break-all;
+    cursor:pointer; color:var(--red-dark); text-decoration:underline; text-underline-offset:2px; }
+  .order-row .sku:hover{ color:var(--red); }
   .order-row .qty{ text-align:right; font-weight:700; font-size:13px; }
   .order-row .del{
     border:none; background:none; color:var(--muted); cursor:pointer;
@@ -648,11 +650,30 @@ function buildToc(){
     const img = CAT_IMAGES[cat];
     const slug = CAT_SLUGS[cat] || '';
     const imgHtml = img
-      ? `<img src="${img}" alt="${escapeHtml(cat)}" loading="lazy">`
+      ? `<img src="${img}" alt="${escapeHtml(cat)}">`
       : `<div style="width:100%;height:64px;"></div>`;
     return `<div class="toc-card" data-target="cat-${slug}">${imgHtml}<div class="toc-label">${escapeHtml(cat)}</div></div>`;
   });
   tocGrid.innerHTML = cards.join('');
+}
+
+/* Scroll akurat: hitung posisi langsung, koreksi ulang saat layout bergeser */
+function scrollToEl(el, gap){
+  if (gap === undefined) gap = 16;
+  const token = (scrollToEl._t = (scrollToEl._t || 0) + 1);
+  const go = () => {
+    if (token !== scrollToEl._t) return;
+    const headerH = topbarEl ? topbarEl.getBoundingClientRect().height : 0;
+    const top = el.getBoundingClientRect().top + window.pageYOffset - headerH - gap;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+  };
+  go();
+  requestAnimationFrame(go);
+  [100, 300, 700].forEach(ms => setTimeout(go, ms));
+  // batalkan koreksi kalau pengguna mulai scroll sendiri
+  const stop = () => { scrollToEl._t++; };
+  ['wheel', 'touchstart', 'keydown'].forEach(ev =>
+    window.addEventListener(ev, stop, { once: true, passive: true }));
 }
 
 tocGrid.addEventListener('click', (e) => {
@@ -665,7 +686,7 @@ tocGrid.addEventListener('click', (e) => {
   searchInput.value = '';
   catFilterSelect.value = '';
   applyFilter();
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  scrollToEl(el);
   el.style.transition = 'box-shadow .2s ease';
   el.style.boxShadow = '0 0 0 3px var(--amber)';
   setTimeout(() => { el.style.boxShadow = 'none'; }, 1200);
@@ -771,7 +792,7 @@ function renderOrders(){
     orderListEl.innerHTML = orders.map((o, idx) => `
       <div class="order-row" data-sku="${escapeHtml(o.sku)}">
         <span class="no">${idx+1}</span>
-        <span class="sku">${escapeHtml(o.sku)}</span>
+        <span class="sku" title="Lihat barangnya di katalog">${escapeHtml(o.sku)}</span>
         <span class="qty">${o.qty}</span>
         <button class="del" type="button" title="Hapus">✕</button>
       </div>`).join('');
@@ -789,6 +810,28 @@ orderListEl.addEventListener('click', (e) => {
   if (!del) return;
   const row = del.closest('.order-row');
   removeOrder(row.getAttribute('data-sku'));
+});
+
+/* Klik SKU di Daftar Pengambilan -> langsung menuju barangnya di katalog */
+function goToSku(sku){
+  const owner = Object.keys(BRANDS).find(k => BRANDS[k].data.some(r => r.p === sku));
+  if (owner && owner !== currentBrand) switchBrand(owner);
+  closeDrawer();
+  searchInput.value = '';
+  catFilterSelect.value = '';
+  applyFilter();
+  const tr = catalogRoot.querySelector('tr[data-sku="' + CSS.escape(sku) + '"]');
+  if (!tr){ showToast('Barang tidak ditemukan di katalog'); return; }
+  scrollToEl(tr, 100);
+  tr.style.transition = 'background .3s ease';
+  tr.style.background = 'var(--amber-soft)';
+  setTimeout(() => { tr.style.background = ''; }, 2200);
+}
+
+orderListEl.addEventListener('click', (e) => {
+  const s = e.target.closest('.sku');
+  if (!s) return;
+  goToSku(s.closest('.order-row').getAttribute('data-sku'));
 });
 
 /* ===================== Export Excel (.xlsx) ===================== */
