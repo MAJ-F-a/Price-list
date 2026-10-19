@@ -503,7 +503,7 @@
 
 <div class="toast" id="toast"></div>
 
-<button class="back-to-top" id="backToTopBtn" type="button" title="Kembali ke atas / Daftar Isi" aria-label="Kembali ke atas">
+<button class="back-to-top" id="backToTopBtn" type="button" title="Kembali ke gambar Daftar Isi tadi (tekan lagi untuk ke paling atas)" aria-label="Kembali ke Daftar Isi">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
 </button>
 
@@ -644,6 +644,7 @@ function buildCatFilter(){
 /* ===================== Daftar Isi (visual index) ===================== */
 const tocGrid = document.getElementById('tocGrid');
 const tocToggle = document.getElementById('tocToggle');
+let lastTocCard = null;
 
 function buildToc(){
   const cards = CATS.map(cat => {
@@ -682,6 +683,7 @@ tocGrid.addEventListener('click', (e) => {
   const targetId = card.getAttribute('data-target');
   const el = document.getElementById(targetId);
   if (!el) return;
+  lastTocCard = card; // ingat gambar terakhir yang ditekan
   // pastikan kategori tampil: reset pencarian & filter kategori
   searchInput.value = '';
   catFilterSelect.value = '';
@@ -906,6 +908,7 @@ function renderBrandMark(){
 
 function switchBrand(brand){
   if (brand === currentBrand) return;
+  lastTocCard = null;
   currentBrand = brand;
   const b = BRANDS[brand];
   DATA = b.data; CATS = b.cats; CAT_SLUGS = b.slugs; CAT_IMAGES = b.images;
@@ -959,6 +962,19 @@ window.addEventListener('scroll', () => {
   backToTopBtn.classList.toggle('show', window.scrollY > 500);
 }, { passive: true });
 backToTopBtn.addEventListener('click', () => {
+  // Kalau tadi masuk lewat gambar Daftar Isi, kembali ke gambar itu dulu
+  if (lastTocCard && document.body.contains(lastTocCard) && !tocGrid.classList.contains('collapsed')){
+    const card = lastTocCard;
+    lastTocCard = null; // tekan lagi = naik ke paling atas
+    scrollToEl._t = (scrollToEl._t || 0) + 1; // batalkan koreksi scroll lama
+    const headerH = topbarEl ? topbarEl.getBoundingClientRect().height : 0;
+    const top = card.getBoundingClientRect().top + window.pageYOffset - headerH - 90;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    card.style.transition = 'box-shadow .2s ease';
+    card.style.boxShadow = '0 0 0 3px var(--red)';
+    setTimeout(() => { card.style.boxShadow = 'none'; }, 1500);
+    return;
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
