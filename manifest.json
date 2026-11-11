@@ -9,19 +9,19 @@
   "theme_color": "#c31f2c",
   "icons": [
     {
-      "src": "assets/logo-maj-192.png",
+      "src": "logo-maj-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/logo-maj-512.png",
+      "src": "logo-maj-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/logo-maj-maskable-512.png",
+      "src": "logo-maj-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
