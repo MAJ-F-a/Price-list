@@ -95,7 +95,29 @@
   .sheet-tab.disabled{ opacity:.55; cursor:not-allowed; }
   .sheet-tab .soon{ font-size:9.5px; display:block; letter-spacing:.08em; font-weight:500; margin-top:-1px; }
 
+
+  /* ===== Tab price list + nomor WA di baris logo (ikut menempel saat scroll) ===== */
+  .topbar-row1 .company-right{ gap:8px; }
+  .topbar-row1 .sheet-tabs{ gap:5px; }
+  body header.topbar .sheet-tab{
+    background:rgba(255,255,255,.12); color:#d9d4c4; border-radius:6px;
+    padding:5px 11px; cursor:pointer;
+  }
+  body header.topbar .sheet-tab.active{ background:var(--paper); color:var(--red-dark); }
+  body.theme-aspira header.topbar .sheet-tab.active{ background:#ffc20e; color:#1c1b19; }
+  @media (max-width:640px){
+    .topbar-row1{ padding:8px 12px 6px; gap:8px; }
+    .brand{ gap:8px; }
+    .brand-mark img{ width:32px; height:32px; }
+    .topbar-row1 .company-right{ gap:6px; }
+    body header.topbar .sheet-tab{ font-size:12.5px; padding:4px 8px; }
+    .topbar-row1 .wa-link{ font-size:12px; padding:4px 9px; }
+    .topbar-row1 .wa-link svg{ width:14px; height:14px; }
+  }
+
   /* ===== Header ===== */
+  .company-right{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .companybar .wa-link{ font-size:12.5px; padding:4px 11px; }
   header.topbar{
     position:sticky; top:0; z-index:40;
     background:var(--ink);
@@ -641,11 +663,6 @@
       <button class="home-btn" id="homeBtn" type="button" title="Kembali ke menu pilihan Federal / Aspira / Valvoline">⌂ Menu Utama</button>
       <div class="company-name">CV. Mahkota Abadi Jaya</div>
     </div>
-    <div class="sheet-tabs">
-      <button class="sheet-tab active" type="button" id="tabFederal" data-brand="federal">Federal Parts</button>
-      <button class="sheet-tab" type="button" id="tabAspira" data-brand="aspira">Aspira Parts</button>
-      <button class="sheet-tab" type="button" id="tabValvoline" data-brand="valvoline">Valvoline</button>
-    </div>
   </div>
 </div>
 
@@ -658,12 +675,16 @@
         <div class="sub" id="brandSub">Price List &middot; Juni 2026</div>
       </div>
     </div>
-    <div class="wa-inline">
-      <div class="wa-inline-text">Sudah selesai pilih barang &amp; <b>export ke Excel</b>? Kirim filenya ke salesman kami untuk memproses pesanan Anda atau klik nomor di samping ini.</div>
+    <div class="company-right">
       <a class="wa-link" href="https://wa.me/628116610660" target="_blank" rel="noopener">
         <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.7 4.61 1.902 6.48L4 29l7.72-1.87A11.93 11.93 0 0 0 16.001 27C22.629 27 28 21.627 28 15S22.629 3 16.001 3zm0 21.818c-1.99 0-3.84-.58-5.4-1.58l-.387-.24-4.58 1.11 1.13-4.47-.253-.4A9.77 9.77 0 0 1 6.18 15c0-5.42 4.4-9.818 9.82-9.818S25.82 9.58 25.82 15 21.42 24.818 16 24.818zm5.4-7.34c-.296-.148-1.75-.864-2.022-.963-.272-.098-.47-.148-.667.148-.198.296-.766.963-.94 1.16-.173.198-.346.222-.642.074-.296-.148-1.25-.46-2.38-1.468-.88-.785-1.474-1.754-1.647-2.05-.173-.297-.018-.457.13-.605.134-.133.297-.346.445-.52.148-.173.198-.297.297-.494.099-.198.05-.371-.025-.52-.074-.148-.667-1.61-.914-2.204-.24-.578-.485-.5-.667-.51l-.568-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.478 0 1.462 1.065 2.874 1.213 3.072.148.198 2.096 3.2 5.077 4.487.71.306 1.264.489 1.696.626.712.227 1.36.195 1.872.118.571-.085 1.75-.716 1.997-1.408.247-.692.247-1.285.173-1.408-.074-.123-.272-.198-.568-.346z"/></svg>
         08116610660
       </a>
+      <div class="sheet-tabs">
+        <button class="sheet-tab active" type="button" id="tabFederal" data-brand="federal">Federal Parts</button>
+        <button class="sheet-tab" type="button" id="tabAspira" data-brand="aspira">Aspira Parts</button>
+        <button class="sheet-tab" type="button" id="tabValvoline" data-brand="valvoline">Valvoline</button>
+      </div>
     </div>
     <button class="cart-btn" id="openCartBtn">
       🧺 Daftar Pengambilan <span class="cart-count" id="cartCount">0</span>
