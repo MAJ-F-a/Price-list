@@ -574,56 +574,6 @@
   body.theme-aspira .x-mark{ color:#b07a00; }
 
 
-  /* ===== UJI COBA: warna transparan / kaca, tembus ke gambar tampilan awal =====
-     (hapus blok ini sampai penutup "FIN UJI COBA" untuk kembali ke warna pekat) */
-  html{ background:#0a1230; }
-  body{ background:transparent; }
-  body::before{
-    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
-    background:linear-gradient(180deg, rgba(4,8,26,.55) 0%, rgba(4,8,26,.35) 45%, rgba(4,8,26,.65) 100%), var(--img-landing) center/cover no-repeat;
-  }
-  header.topbar{
-    background:rgba(20,19,17,.72);
-    border-bottom-color:color-mix(in srgb, var(--red) 70%, transparent);
-  }
-  .companybar, body.theme-aspira .companybar{
-    background:color-mix(in srgb, var(--red) 45%, transparent);
-  }
-  body.theme-aspira .companybar{ background:color-mix(in srgb, var(--red) 50%, transparent); }
-  /* judul kategori produk: warna pekat agar tulisan jelas */
-  .category-head{ background:var(--red); }
-  body.theme-aspira .category-head{ color:#1c1b19; }
-  body.theme-aspira .category-head .idx{ background:rgba(0,0,0,.14); }
-  table.parts-table tbody tr.brand-row td{
-    background:color-mix(in srgb, var(--red) 22%, rgba(255,255,255,.9));
-  }
-  .table-scroll, table.parts-table{ background:rgba(255,255,255,.90); }
-  table.parts-table thead th{ background:rgba(239,234,223,.92); }
-  aside.order-panel{
-    background:rgba(255,255,255,.92);
-    border-left-color:rgba(255,255,255,.25);
-  }
-  .toc-card{ background:rgba(255,255,255,.88); }
-  .toc-head h2, .toc-head .toc-hint, .result-meta{ color:#fff; text-shadow:0 1px 4px rgba(0,0,0,.6); }
-  .toc-head .toc-hint{ color:#e9e4d6; }
-  .no-result{ color:#fff; }
-  .toc-toggle, .btn-export, .cart-btn{
-    background:color-mix(in srgb, var(--red) 70%, transparent);
-    border:1px solid rgba(255,255,255,.35);
-  }
-  .toc-toggle:hover, .btn-export:hover, .cart-btn:hover{ background:color-mix(in srgb, var(--red) 90%, transparent); }
-  body.theme-aspira .toc-toggle, body.theme-aspira .btn-export, body.theme-aspira .cart-btn{ color:#1c1b19; }
-  body.theme-aspira .btn-export:hover, body.theme-aspira .toc-toggle:hover, body.theme-aspira .cart-btn:hover{ color:#1c1b19; }
-  body header.topbar .sheet-tab.active, body.theme-aspira header.topbar .sheet-tab.active{
-    background:color-mix(in srgb, var(--red) 75%, transparent); color:#fff;
-  }
-  body.theme-aspira header.topbar .sheet-tab.active{ color:#1c1b19; }
-  /* tombol Menu Utama: pekat agar tulisan jelas */
-  .home-btn{ background:var(--red-dark); color:#fff; border-color:rgba(255,255,255,.55); font-weight:700; }
-  .home-btn:hover{ background:var(--red); }
-  body.theme-aspira .home-btn{ background:#1c1b19; color:#ffc20e; border-color:#1c1b19; }
-  body.theme-aspira .home-btn:hover{ background:#3a3833; }
-  /* ===== FIN UJI COBA ===== */
 </style>
 </head>
 <body class="landing-open">
